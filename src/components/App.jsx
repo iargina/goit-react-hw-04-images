@@ -34,23 +34,18 @@ export const App = () => {
     return;
   };
 
-  const getImages = async () => {
-    setLoading(true);
-
-    try {
-      const { finalPhotos, total_results } = await getImagesArr(query, page);
-
-      setImages([...images, ...finalPhotos]);
-      setTotalPages(Math.floor(total_results / 12));
-    } catch (error) {
-      setError('You did something strange. Try again or contact us');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getImages();
+    if (!query) {
+      return;
+    }
+    setLoading(true);
+    getImagesArr(query, page)
+      .then(({ finalPhotos, total_results }) => {
+        setImages(prevState => [...prevState, ...finalPhotos]);
+        setTotalPages(Math.floor(total_results / 12));
+      })
+      .catch(error => setError(error.message))
+      .finally(() => setLoading(false));
   }, [query, page]);
 
   const loadMoreClick = () => {
