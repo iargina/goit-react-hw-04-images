@@ -17,11 +17,13 @@ export const App = () => {
   const [largeImg, setLargeImg] = useState(null);
   const [error, setError] = useState(null);
 
-  /*   const onSubmit = ({ text }) => {
-    setQuery(text), setPage(1), setTotalPages(0), setImages([]);
+  const onSubmit = ({ text }) => {
+    setQuery(text);
+    setPage(1);
+    setTotalPages(0);
+    setImages([]);
     setError('');
-    return;
-  }; */
+  };
 
   const modalClose = () => {
     setLargeImg(null);
@@ -46,6 +48,7 @@ export const App = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getImages();
   }, [query, page]);
@@ -56,7 +59,7 @@ export const App = () => {
 
   return (
     <div className={css.mainDiv}>
-      <SearchBar /* onSubmit={onSubmit} */ />
+      <SearchBar onSubmit={onSubmit} />
 
       {images.length > 0 ? (
         <>
