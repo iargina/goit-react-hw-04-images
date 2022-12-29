@@ -1,26 +1,28 @@
 import css from './Modal.module.css';
 import { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 export const Modal = ({ largeSrc, modalClose }) => {
-  const escapeClick = event => {
-    if (event.key !== 'Escape') {
-      return;
-    }
-    modalClose();
-    return;
-  };
-
   useEffect(() => {
+    const escapeClick = event => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+      modalClose();
+      return;
+    };
     document.addEventListener(`keydown`, escapeClick);
     return () => {
       document.removeEventListener(`keydown`, escapeClick);
     };
-  });
-  return (
+  }, [modalClose]);
+
+  return ReactDOM.createPortal(
     <div className={css.overlay} onClick={modalClose}>
       <div className={css.modal}>
         <img src={largeSrc.src} alt={largeSrc.alt} />
       </div>
-    </div>
+    </div>,
+    document.getElementById('modalDiv')
   );
 };

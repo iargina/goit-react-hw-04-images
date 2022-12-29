@@ -49,7 +49,7 @@ export const App = () => {
   }, [query, page]);
 
   const loadMoreClick = () => {
-    return setPage(page + 1);
+    return setPage(prevState => prevState + 1);
   };
 
   return (
